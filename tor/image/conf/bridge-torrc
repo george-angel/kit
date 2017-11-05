@@ -1,0 +1,13 @@
+SocksPort 0
+
+# The default ORPort is 9001, but that could ease bridges fingerprinting. Choose a random port is better for the bridge’s usability.
+ORPort 4235
+ExtORPort auto
+
+Nickname ${NAME}
+ContactInfo ${CONTANCT}
+
+ExitPolicy reject *:* # no exits allowed
+BridgeRelay 1
+ServerTransportPlugin obfs4 exec /usr/local/bin/obfs4proxy
+ServerTransportListenAddr obfs4 0.0.0.0:80

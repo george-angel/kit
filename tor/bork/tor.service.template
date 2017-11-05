@@ -1,0 +1,22 @@
+# /etc/systemd/system/tor.service
+[Unit]
+Description=Tor relay/bridge
+After=docker.service
+Requires=docker.service
+
+[Service]
+PermissionsStartOnly=true
+Restart=on-failure
+ExecStart=/bin/sh -c ' \
+ docker run --name=%p_$(uuidgen) --rm \
+ -e NAME="${NAME}" \
+ -e CONTACT="${CONTACT}" \
+ -e TOR_CONFIG_TEMPLATE="${ROLE}" \
+ -p 80:80 \
+ -p 443:443 \
+ -p 4235:4235 \
+ docker.io/angelx/tor:${TOR_VER}'
+ExecStop=/bin/sh -c 'docker stop -t 3 "$(docker ps -q --filter=name=%p_)"'
+
+[Install]
+WantedBy=multi-user.target

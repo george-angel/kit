@@ -1,0 +1,9 @@
+SocksPort 0
+
+# recommended on https://www.torproject.org/docs/tor-relay-debian.html.en#after
+ORPort 443
+DirPort 80
+
+Nickname ${NAME}
+ContactInfo ${CONTANCT}
+ExitPolicy reject *:* # no exits allowed

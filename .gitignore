@@ -1,0 +1,5 @@
+# terraform
+.terraform
+.terraform_plugin_cache/
+saved-plan
+terraform.tfstate.backup

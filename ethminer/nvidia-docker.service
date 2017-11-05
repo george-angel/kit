@@ -1,0 +1,13 @@
+# /etc/systemd/system/nvidia-docker.service
+[Unit]
+Description=Nvidia docker
+After=docker.service
+Requires=docker.service
+
+[Service]
+Restart=on-failure
+ExecStart=/usr/local/bin/nvidia-docker-plugin
+
+[Install]
+WantedBy=multi-user.target
+
