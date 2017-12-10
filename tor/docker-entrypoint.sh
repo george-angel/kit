@@ -8,4 +8,5 @@ _torrc="$(mktemp -t torrc.XXXXXX)"
 _template="${TOR_CONFIG_TEMPLATE:-relay}"
 cat "/etc/tor/${_template}-torrc" | envsubst > "${_torrc}" && \
  chown tor:root "${_torrc}" && \
+ chown tor:root "/home/tor/.tor" && \
  su-exec tor tor -f "${_torrc}" "$@"

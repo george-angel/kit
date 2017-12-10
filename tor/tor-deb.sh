@@ -1,5 +1,6 @@
 include docker-deb.sh
 
+ok directory /tor-data
 ok file /etc/systemd/system/tor.service tor.service
 if did_install; then
   systemctl enable tor.service

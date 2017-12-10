@@ -1,1 +1,2 @@
-vars.mk filter=strongbox diff=strongbox
+vars.mk           filter=strongbox diff=strongbox
+terraform.tfstate filter=strongbox diff=strongbox

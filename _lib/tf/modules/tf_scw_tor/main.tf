@@ -27,6 +27,6 @@ resource "scaleway_server" "server" {
   security_group      = "${element(scaleway_security_group.sg.*.id, count.index)}"
 
   provisioner "local-exec" {
-    command = "echo ${self.public_ip} ${var.role} ${count.index} >> ${var.role}-inv"
+    command = "mkdir -p inventory/ && echo ${self.public_ip} ${var.role} ${count.index} >> inventory/${var.role}"
   }
 }

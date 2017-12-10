@@ -3,3 +3,5 @@
 .terraform_plugin_cache/
 saved-plan
 terraform.tfstate.backup
+# other
+inventory/
