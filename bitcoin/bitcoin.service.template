@@ -11,13 +11,8 @@ ExecStart=/bin/sh -c ' \
  docker run --name=%p_$(uuidgen) --rm \
  -p 8332:8332 \
  -p 8333:8333 \
- -p 18332:18332 \
- -p 18333:18333 \
- -v /data:/data:rw \
- ${IMG} \
- -conf=/bitcoin.conf \
- -disablewallet \
- -datadir=/data'
+ -v /data:/bitcoin/data:rw \
+ ${IMG}
 ExecStop=/bin/sh -c 'docker stop -t 3 "$(docker ps -q --filter=name=%p_)"'
 
 [Install]
