@@ -14,7 +14,7 @@ _satisfy:
 	# template
 	(export IMG=$(NAME):$(VER); \
 	envsubst < bitcoin.service.template) | $(ssh)$(IP) "cat - > /tmp/bork/bitcoin.service"
-	$(ssh)$(IP) "cd /tmp/bork/; export BORK_CONFLICT_RESOLVE=0; bork $(ACTION) main.sh"
+	$(ssh)$(IP) "cd /tmp/bork/; export BORK_CONFLICT_RESOLVE=0; bork $(ACTION) bork.sh"
 
 build:
 	docker $@ -t $(NAME):$(VER) .

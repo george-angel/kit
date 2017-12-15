@@ -7,12 +7,12 @@ Requires=docker.service
 [Service]
 PermissionsStartOnly=true
 Restart=on-failure
-ExecStart=/bin/sh -c ' \
+ExecStart=/bin/sh -c '\
  docker run --name=%p_$(uuidgen) --rm \
  -p 8332:8332 \
  -p 8333:8333 \
- -v /data:/bitcoin/data:rw \
- ${IMG}
+ -v /root/btcdata:/bitcoin/data:rw \
+ ${IMG}'
 ExecStop=/bin/sh -c 'docker stop -t 3 "$(docker ps -q --filter=name=%p_)"'
 
 [Install]
