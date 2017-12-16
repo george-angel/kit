@@ -23,6 +23,7 @@ resource "scaleway_server" "server" {
   image               = "${data.scaleway_image.debian-stretch.id}"
   type                = "C2S"
   dynamic_ip_required = true
+  enable_ipv6         = true
   security_group      = "${element(scaleway_security_group.sg.*.id, count.index)}"
 
   volume {
