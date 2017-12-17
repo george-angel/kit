@@ -7,7 +7,7 @@ variable "instance_count" {
 }
 
 data "scaleway_image" "debian-stretch" {
-  architecture = "x86_64"
+  architecture = "arm"
   name         = "Debian Stretch"
 }
 
@@ -21,9 +21,8 @@ resource "scaleway_server" "server" {
   count               = "${var.instance_count}"
   name                = "${var.role}-${count.index}"
   image               = "${data.scaleway_image.debian-stretch.id}"
-  type                = "C2S"
+  type                = "C1"
   dynamic_ip_required = true
-  enable_ipv6         = true
   security_group      = "${element(scaleway_security_group.sg.*.id, count.index)}"
 
   volume {
