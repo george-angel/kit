@@ -1,4 +1,4 @@
-FROM gcr.io/google-containers/debian-base-amd64:0.3
+FROM arm32v7/debian
 
 ARG VER
 ENV HOME /bitcoin
