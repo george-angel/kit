@@ -3,8 +3,8 @@ include ../_lib/tf/base.makefile
 
 bork-libs=../_lib/bork/*
 
-VER=0.15.1
-NAME=quay.io/george_angel/bitcoin
+VER=0.15.1-arm
+NAME=nesze/bitcoin
 
 _satisfy:
 	# local bork files
