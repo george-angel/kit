@@ -4,6 +4,7 @@ ssh=ssh -oStrictHostKeyChecking=no root@
 # $1 ip
 # $2 role
 # $3 count
+# $4 arch
 
 _setup:
 	$(ssh)$(IP) apt -y update
@@ -19,10 +20,10 @@ setup-all:
 	cat inventory/* | awk '{print $$1}' | parallel make _setup IP={}
 
 satisfy-all:
-	cat inventory/* | awk '{print "make _satisfy IP="$$1" ROLE="$$2" NUM="$$3" ACTION=satisfy"}' | parallel
+	cat inventory/* | awk '{print "make _satisfy IP="$$1" ROLE="$$2" NUM="$$3" ARCH="$$4" ACTION=satisfy"}' | parallel
 
 status-all:
-	cat inventory/* | awk '{print "make _satisfy IP="$$1" ROLE="$$2" NUM="$$3" ACTION=status"}' | parallel
+	cat inventory/* | awk '{print "make _satisfy IP="$$1" ROLE="$$2" NUM="$$3" ARCH="$$4" ACTION=status"}' | parallel
 
 restart-node-all:
 	cat inventory/* | awk '{print $$1}' | parallel $(ssh){} sudo systemctl reboot

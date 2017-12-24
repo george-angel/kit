@@ -1,6 +1,5 @@
 FROM gcr.io/google-containers/debian-base-amd64:0.3
 
-ARG VER
 ENV HOME /bitcoin
 EXPOSE 8332 8333
 VOLUME /bitcoin/data
