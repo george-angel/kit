@@ -1,6 +1,5 @@
-FROM gcr.io/google-containers/debian-base-amd64:0.3
+FROM launcher.gcr.io/google/debian9:latest
 
-ARG VER
 ENV HOME /bitcoin
 EXPOSE 8332 8333
 VOLUME /bitcoin/data
@@ -11,7 +10,10 @@ RUN \
  echo "Package: *\nPin: release a=unstable\nPin-Priority: 800" >> /etc/apt/preferences && \
  apt-get update && apt-get install -y --no-install-recommends bash gnupg dirmngr ca-certificates wget bitcoind && \
  # gosu
- gpg --keyserver ha.pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 && \
+ key=B42F6819007F00F88E364FD4036A9C25BF357DD4 && \
+ gpg --keyserver ha.pool.sks-keyservers.net --recv-keys ${key} || \
+ gpg --keyserver pgp.mit.edu --recv-keys ${key} || \
+ gpg --keyserver keyserver.pgp.com  --recv-keys ${key} && \
  wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/1.10/gosu-$(dpkg --print-architecture)" && \
  wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/1.10/gosu-$(dpkg --print-architecture).asc" && \
  gpg --verify /usr/local/bin/gosu.asc && \
