@@ -3,7 +3,7 @@ include ../_lib/tf/base.makefile
 include vars.mk
 
 image_name=quay.io/george_angel/tor
-tor_ver=0.3.1.9
+tor_ver=0.3.2.9
 
 build:
 	docker build -t $(image_name):$(tor_ver) --build-arg TOR_VER=$(tor_ver) .
@@ -22,7 +22,7 @@ _satisfy:
 	export CONTACT=$(operator); \
 	export ROLE=$(ROLE); \
 	envsubst < tor.service.template) | $(ssh)$(IP) "cat - > /tmp/bork/tor.service"
-	$(ssh)$(IP) "cd /tmp/bork/; export BORK_CONFLICT_RESOLVE=0; bork $(ACTION) tor-deb.sh"
+	$(ssh)$(IP) "cd /tmp/bork/; export BORK_CONFLICT_RESOLVE=0; bork $(ACTION) tor-deb.sh 2>/dev/null"
 
 _pull-latest:
 	$(ssh)$(IP) docker pull $(image_name):$(tor_ver)
