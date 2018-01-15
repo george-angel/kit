@@ -1,3 +1,5 @@
+# vim: ft=sh
+
 ok apt curl
 ok apt gnupg2
 ok apt ca-certificates

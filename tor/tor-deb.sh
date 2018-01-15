@@ -1,4 +1,5 @@
-include docker-deb.sh
+include docker-deb.bork
+include sshd_config.bork
 
 ok directory /tor-data
 ok file /etc/systemd/system/tor.service tor.service
