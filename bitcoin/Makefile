@@ -9,6 +9,7 @@ NAME=quay.io/george_angel/bitcoin
 _satisfy:
 	# local bork files
 	rsync -arvce "ssh -o StrictHostKeyChecking=no" *.sh root@$(IP):/tmp/bork/
+	rsync -arvce "ssh -o StrictHostKeyChecking=no" torrc root@$(IP):/tmp/bork/
 	# lib bork files
 	rsync -arvce "ssh -o StrictHostKeyChecking=no" $(bork-libs) root@$(IP):/tmp/bork/
 	# template
@@ -17,7 +18,7 @@ _satisfy:
 	$(ssh)$(IP) "cd /tmp/bork/; export BORK_CONFLICT_RESOLVE=0; bork $(ACTION) bork.sh"
 
 build:
-	docker $@ -t $(NAME):$(VER) .
+	docker $@ -t $(NAME):$(VER) --build-arg VER=$(VER) .
 
 push:
 	docker $@ $(NAME):$(VER)

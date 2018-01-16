@@ -1,5 +1,6 @@
 FROM launcher.gcr.io/google/debian9:latest
 
+ARG VER
 ENV HOME /bitcoin
 EXPOSE 8332 8333
 VOLUME /bitcoin/data
@@ -8,7 +9,7 @@ COPY entrypoint.sh /
 RUN \
  echo "deb http://ftp.us.debian.org/debian unstable main" >> /etc/apt/sources.list && \
  echo "Package: *\nPin: release a=unstable\nPin-Priority: 800" >> /etc/apt/preferences && \
- apt-get update && apt-get install -y --no-install-recommends bash gnupg dirmngr ca-certificates wget bitcoind && \
+ apt-get update && apt-get install -y --no-install-recommends bash gnupg dirmngr ca-certificates wget bitcoind=${VER}* && \
  # gosu
  key=B42F6819007F00F88E364FD4036A9C25BF357DD4 && \
  gpg --keyserver ha.pool.sks-keyservers.net --recv-keys ${key} || \

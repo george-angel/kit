@@ -11,6 +11,11 @@ data "scaleway_image" "debian-stretch" {
   name         = "Debian Stretch"
 }
 
+data "scaleway_bootscript" "meltdown-fix" {
+  architecture = "x86_64"
+  name_filter  = "4.14.13"
+}
+
 resource "scaleway_security_group" "sg" {
   count       = "${var.instance_count}"
   name        = "${var.role}-${count.index}"
@@ -21,6 +26,7 @@ resource "scaleway_server" "server" {
   count               = "${var.instance_count}"
   name                = "${var.role}-${count.index}"
   image               = "${data.scaleway_image.debian-stretch.id}"
+  bootscript          = "${data.scaleway_bootscript.meltdown-fix.id}"
   type                = "C2S"
   dynamic_ip_required = true
   enable_ipv6         = true

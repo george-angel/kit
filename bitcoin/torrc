@@ -1,0 +1,3 @@
+HiddenServiceDir /root/data/tor-hidded-service/
+HiddenServicePort 8332 127.0.0.1:8332
+HiddenServicePort 8333 127.0.0.1:8333

@@ -10,7 +10,7 @@ Restart=on-failure
 ExecStart=/bin/sh -c '\
  docker run --name=%p_$(uuidgen | cut -d- -f1) --rm \
  --net=host \
- -v /root/btcdata:/bitcoin/data:rw \
+ -v /root/data/btc:/bitcoin/data:rw \
  ${IMG}'
 ExecStop=/bin/sh -c 'docker stop -t 3 "$(docker ps -q --filter=name=%p_)"'
 
