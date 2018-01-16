@@ -1,4 +1,4 @@
-FROM launcher.gcr.io/google/debian9:latest
+FROM gcr.io/google-containers/debian-base-arm:0.3
 
 ENV HOME /bitcoin
 EXPOSE 8332 8333

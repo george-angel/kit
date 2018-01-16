@@ -13,15 +13,26 @@ _satisfy:
 	# lib bork files
 	rsync -arvce "ssh -o StrictHostKeyChecking=no" $(bork-libs) root@$(IP):/tmp/bork/
 	# template
-	(export IMG=$(NAME):$(VER); \
+	ifeq ($(ARCH),"arm")
+	  IMG=$(NAME):$(VER)-arm
+	else
+	  IMG=$(NAME):$(VER)
+	endif
+	(export IMG=$(IMG); \
 	envsubst < bitcoin.service.template) | $(ssh)$(IP) "cat - > /tmp/bork/bitcoin.service"
 	$(ssh)$(IP) "cd /tmp/bork/; export BORK_CONFLICT_RESOLVE=0; bork $(ACTION) bork.sh"
 
-build:
-	docker $@ -t $(NAME):$(VER) --build-arg VER=$(VER) .
+build-x86:
+	docker build -t $(NAME):$(VER) --build-arg VER=$(VER) -f Dockerfile .
 
-push:
-	docker $@ $(NAME):$(VER)
+push-x86:
+	docker push $(NAME):$(VER)
+
+build-arm:
+	docker build -t $(NAME):$(VER)-arm --build-arg VER=$(VER) -f Dockerfile.arm .
+
+push-arm:
+	docker push $(NAME):$(VER)-arm
 
 run:
 	docker $@ -ti \

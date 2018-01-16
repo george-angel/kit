@@ -2,12 +2,34 @@ variable "role" {
   default = "bitcoin"
 }
 
+variable "arch" {
+  default = "x86"
+}
+
 variable "instance_count" {
   default = 1
 }
 
+variable "image-archs" {
+  type = "map"
+
+  default = {
+    "arm" = "arm"
+    "x86" = "x86_64"
+  }
+}
+
+variable "instance-types" {
+  type = "map"
+
+  default = {
+    "arm" = "C1"
+    "x86" = "C2S"
+  }
+}
+
 data "scaleway_image" "debian-stretch" {
-  architecture = "x86_64"
+  architecture = "${lookup(var.image-archs, var.arch)}"
   name         = "Debian Stretch"
 }
 
@@ -27,7 +49,7 @@ resource "scaleway_server" "server" {
   name                = "${var.role}-${count.index}"
   image               = "${data.scaleway_image.debian-stretch.id}"
   bootscript          = "${data.scaleway_bootscript.meltdown-fix.id}"
-  type                = "C2S"
+  type                = "${lookup(var.instance-types, var.arch)}"
   dynamic_ip_required = true
   enable_ipv6         = true
   security_group      = "${element(scaleway_security_group.sg.*.id, count.index)}"
@@ -43,6 +65,6 @@ resource "scaleway_server" "server" {
   }
 
   provisioner "local-exec" {
-    command = "mkdir -p inventory/ && echo ${self.public_ip} ${var.role} ${count.index} > inventory/${var.role}"
+    command = "mkdir -p inventory/ && echo ${self.public_ip} ${var.role} ${count.index} ${var.arch} > inventory/${var.role}"
   }
 }
