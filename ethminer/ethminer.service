@@ -10,9 +10,8 @@ PermissionsStartOnly=true
 Restart=on-failure
 EnvironmentFile=/home/george/ethminer-vars
 ExecStartPre=/usr/bin/nvidia-smi -pl 65
-ExecStart=/bin/sh -c 'nvidia-docker run --name=%p_$(uuidgen) --rm docker.io/angelx/ethminer:0.12.0 -U -S ${POOL} -FS ${FO_POOL} -O ${CREDS}'
+ExecStart=/bin/sh -c 'nvidia-docker run --name=%p_$(uuidgen) --rm quay.io/george_angel/ethminer:0.13.0 -U -S ${POOL} -FS ${FO_POOL} -O ${CREDS}'
 ExecStop=/bin/sh -c 'docker stop -t 3 "$(docker ps -q --filter=name=%p_)"'
 
 [Install]
 WantedBy=multi-user.target
-

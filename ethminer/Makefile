@@ -1,5 +1,5 @@
-RELEASE = 0.12.0
-NAME = angelx/ethminer
+RELEASE = 0.13.0
+NAME = quay.io/george_angel/ethminer
 
 build:
 	docker build -t $(NAME):$(RELEASE) --build-arg RELEASE=$(RELEASE) .
