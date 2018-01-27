@@ -1,4 +1,4 @@
-TF := $(shell git rev-parse --show-toplevel)/_lib/tf/tf.sh
+TF := $(shell git rev-parse --show-toplevel)/_lib/tf/tf
 TF_VAR_component := $(shell basename ${PWD})
 export TF_VAR_component
 
