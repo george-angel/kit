@@ -39,6 +39,6 @@ RUN apk --no-cache add \
  apk del build-base gmp-dev go git gcc libc-dev && rm -rf /go
 
 ADD conf/*-torrc /etc/tor/
-ADD docker-entrypoint.sh /
+ADD docker-entrypoint /
 
-ENTRYPOINT ["/docker-entrypoint.sh"]
+ENTRYPOINT ["/docker-entrypoint"]
