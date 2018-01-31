@@ -5,13 +5,13 @@ After=docker.service
 Requires=docker.service
 
 [Service]
-PermissionsStartOnly=true
 Restart=on-failure
 ExecStart=/bin/sh -c '\
- docker run --name=%p_$(uuidgen | cut -d- -f1) --rm \
+ docker run --name=%p_$(head -c5 /dev/urandom | base32) --rm \
  --net=host \
- -v /root/data/btc:/bitcoin/data:rw \
- ${IMG}'
+ -v /root/data-vol/bitcoin-data:/bitcoin/data:rw \
+ -e CONF_RPCPASSWORD=${CONF_RPCPASSWORD} \
+ ${IMAGE}'
 ExecStop=/bin/sh -c 'docker stop -t 3 "$(docker ps -q --filter=name=%p_)"'
 
 [Install]

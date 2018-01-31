@@ -1,38 +1,32 @@
 include ../_lib/bork/common.mk
 include ../_lib/tf/base.makefile
+include vars.mk
 
 bork-libs=../_lib/bork/*
 
-VER=0.15.1
 NAME=quay.io/george_angel/bitcoin
+BITCOIN_VERSION=0.15.1
+ITERATION=1
+
+IMAGE=$(NAME):$(BITCOIN_VERSION)-amd64-$(ITERATION)
+
 
 _satisfy:
 	# local bork files
 	rsync -arvce "ssh -o StrictHostKeyChecking=no" *.sh root@$(IP):/tmp/bork/
-	rsync -arvce "ssh -o StrictHostKeyChecking=no" torrc root@$(IP):/tmp/bork/
 	# lib bork files
 	rsync -arvce "ssh -o StrictHostKeyChecking=no" $(bork-libs) root@$(IP):/tmp/bork/
 	# template
-	ifeq ($(ARCH),"arm")
-	  IMG=$(NAME):$(VER)-arm
-	else
-	  IMG=$(NAME):$(VER)
-	endif
-	(export IMG=$(IMG); \
+	(export IMAGE=$(IMAGE); \
+	export CONF_RPCPASSWORD=$(rpcpassword); \
 	envsubst < bitcoin.service.template) | $(ssh)$(IP) "cat - > /tmp/bork/bitcoin.service"
 	$(ssh)$(IP) "cd /tmp/bork/; export BORK_CONFLICT_RESOLVE=0; bork $(ACTION) bork.sh"
 
-build-x86:
-	docker build -t $(NAME):$(VER) --build-arg VER=$(VER) -f Dockerfile .
+build:
+	docker $@ -t $(IMAGE) --build-arg BITCOIN_VERSION=$(BITCOIN_VERSION) .
 
-push-x86:
-	docker push $(NAME):$(VER)
-
-build-arm:
-	docker build -t $(NAME):$(VER)-arm --build-arg VER=$(VER) -f Dockerfile.arm .
-
-push-arm:
-	docker push $(NAME):$(VER)-arm
+push:
+	docker $@ $(IMAGE)
 
 run:
 	docker $@ -ti \
