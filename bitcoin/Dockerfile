@@ -4,8 +4,8 @@ EXPOSE 8332 8333
 
 ARG BITCOIN_VERSION
 
-ENV BITCOIN_URL https://bitcoin.org/bin/bitcoin-core-${BITCOIN_VERSION}/bitcoin-${BITCOIN_VERSION}-arm-linux-gnueabihf.tar.gz
-ENV BITCOIN_SHA256 ceba092c9a390082ff184c8d82a24bc34d7f9b421dc5c1e6847fcf769541f305
+ENV BITCOIN_URL https://bitcoin.org/bin/bitcoin-core-${BITCOIN_VERSION}/bitcoin-${BITCOIN_VERSION}-x86_64-linux-gnu.tar.gz
+ENV BITCOIN_SHA256 387c2e12c67250892b0814f26a5a38f837ca8ab68c86af517f975a2a2710225b
 ENV BITCOIN_ASC_URL https://bitcoin.org/bin/bitcoin-core-${BITCOIN_VERSION}/SHA256SUMS.asc
 ENV BITCOIN_PGP_KEY 01EA5486DE18A882D4C2684590C8019E36C2E964
 ENV BITCOIN_DATA /bitcoin/data
@@ -14,7 +14,6 @@ ENV HOME /bitcoin
 VOLUME /bitcoin/data
 
 COPY bitcoin.conf /etc/
-COPY entrypoint /
 
 RUN \
  useradd -U -M -s /usr/sbin/nologin -d /bitcoin bitcoin && \
@@ -38,4 +37,7 @@ RUN \
  apt-get purge -y --auto-remove ca-certificates wget gnupg dirmngr && \
  apt-get clean && rm -rf /var/lib/apt/lists/* && rm -rf /tmp/*
 
+COPY entrypoint /
+
 ENTRYPOINT ["/entrypoint"]
+CMD ["bitcoind"]

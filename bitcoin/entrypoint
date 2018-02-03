@@ -1,22 +1,12 @@
 #!/bin/bash
+set -e
 
-function fail {
-  echo "ERROR: $1" >&2
-  exit 1
-}
-
-if [[ -z "$CONF_RPCPASSWORD" ]]; then
-  fail "Required environment variable CONF_RPCPASSWORD not set."
+if [[ "$1" == "bitcoin-cli" || "$1" == "bitcoin-tx" || "$1" == "test_bitcoin" ]]; then
+  chown -R bitcoin /bitcoin/data
+  exec gosu bitcoin "$@"
+elif [[ "$1" == "bitcoind" ]]; then
+  chown -R bitcoin /bitcoin/data
+  exec gosu bitcoin "$@" -conf=/etc/bitcoin.conf
 fi
 
-# ensure correct ownership and linking of data directory
-# we do not update group ownership here, in case users want to mount
-# a host directory and still retain access to it
-chown -R bitcoin /bitcoin/data
-
-env | grep '^CONF_\w\+=' | cut -d= -f1 | while read EVAR ; do
-	CVAR=`echo "$EVAR" | cut -d_ -f2- | tr '[:upper:]' '[:lower:]' | tr -- _ -`
-	echo -n "${!EVAR}" | xargs -d '|' -I '{}' echo "${CVAR}={}" >> /etc/bitcoin.conf
-done
-
-exec gosu bitcoin bitcoind -conf=/etc/bitcoin.conf
+exec "$@"

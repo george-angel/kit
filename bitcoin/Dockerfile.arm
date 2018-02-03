@@ -14,7 +14,6 @@ ENV HOME /bitcoin
 VOLUME /bitcoin/data
 
 COPY bitcoin.conf /etc/
-COPY entrypoint /
 
 RUN \
  useradd -U -M -s /usr/sbin/nologin -d /bitcoin bitcoin && \
@@ -38,4 +37,7 @@ RUN \
  apt-get purge -y --auto-remove ca-certificates wget gnupg dirmngr && \
  apt-get clean && rm -rf /var/lib/apt/lists/* && rm -rf /tmp/*
 
+COPY entrypoint /
+
 ENTRYPOINT ["/entrypoint"]
+CMD ["bitcoind"]
