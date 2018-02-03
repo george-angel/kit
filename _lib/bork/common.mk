@@ -1,4 +1,4 @@
-ssh=ssh -oStrictHostKeyChecking=no root@
+ssh_opts=-oStrictHostKeyChecking=no
 
 # cat inventory/* :
 # $1 ip
@@ -7,11 +7,11 @@ ssh=ssh -oStrictHostKeyChecking=no root@
 # $4 arch
 
 _setup:
-	$(ssh)$(IP) apt -y update
-	$(ssh)$(IP) apt -y install git
-	$(ssh)$(IP) "test -d /usr/local/src/bork || git clone https://github.com/mattly/bork /usr/local/src/bork"
-	$(ssh)$(IP) "test -L /usr/local/bin/bork || ln -sf /usr/local/src/bork/bin/bork /usr/local/bin/bork"
-	$(ssh)$(IP) "test -L /usr/local/bin/bork-compile || ln -sf /usr/local/src/bork/bin/bork-compile /usr/local/bin/bork-compile"
+	ssh $(ssh_opts) $(user)@$(IP) apt -y update
+	ssh $(ssh_opts) $(user)@$(IP) apt -y install git
+	ssh $(ssh_opts) $(user)@$(IP) "test -d /usr/local/src/bork || git clone https://github.com/mattly/bork /usr/local/src/bork"
+	ssh $(ssh_opts) $(user)@$(IP) "test -L /usr/local/bin/bork || ln -sf /usr/local/src/bork/bin/bork /usr/local/bin/bork"
+	ssh $(ssh_opts) $(user)@$(IP) "test -L /usr/local/bin/bork-compile || ln -sf /usr/local/src/bork/bin/bork-compile /usr/local/bin/bork-compile"
 
 _upgrade:
 	$(ssh)$(IP) apt -y upgrade
@@ -20,7 +20,7 @@ trust-all:
 	cat inventory/* | awk '{print $$1}' | parallel ssh-keyscan {} >> ~/.ssh/known_hosts
 
 setup-all:
-	cat inventory/* | awk '{print $$1}' | parallel make _setup IP={}
+	cat inventory/* | awk '{print $$1}' | parallel make _setup IP={} user=root
 
 upgrade-all:
 	cat inventory/* | awk '{print $$1}' | parallel make _upgrade IP={}
