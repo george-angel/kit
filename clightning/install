@@ -1,0 +1,27 @@
+#!/bin/bash
+
+cat < EOF | sudo tee /etc/systemd/system/clightningd.service >/dev/null
+# /etc/systemd/system/clightningd.service
+[Unit]
+Description=Bitcoin node
+After=docker.service bitcoind.service
+Requires=docker.service bitcoind.service
+
+[Service]
+Restart=on-failure
+ExecStart=/bin/sh -c '\
+docker run --rm --name %p \
+--network container:bitcoind \
+-v ${DISK_MOUNT}${BITCOIN_DATA_DIR}:/root/.bitcoin \
+-v ${DISK_MOUNT}${CLIGHTNING_DATA_DIR}:/root/.lightning \
+--entrypoint /usr/bin/lightningd cdecker/lightningd:master \
+--network=bitcoin \
+--log-level=debug'
+
+ExecStop=/bin/sh -c 'docker stop -t 3 %p'
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+sudo systemctl enable clightningd.service && sudo systemctl start clightningd
