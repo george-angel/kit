@@ -1,6 +1,8 @@
 #!/bin/bash
 
-cat < EOF | sudo tee /etc/systemd/system/bitcoind.service >/dev/null
+set -e
+
+cat << EOF | sudo tee /etc/systemd/system/bitcoind.service >/dev/null
 # /etc/systemd/system/bitcoind.service
 [Unit]
 Description=Bitcoin node
