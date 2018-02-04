@@ -1,6 +1,6 @@
 FROM nvidia/cuda:9.1-base
 
-ARG RELEASE=x
+ARG RELEASE
 
 RUN apt-get update && \
  apt-get -y install curl && \
