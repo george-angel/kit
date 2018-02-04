@@ -1,7 +1,8 @@
 # /etc/systemd/system/ethminer.service
 [Unit]
 Description=Ethminer
-After=nvidia-docker.service
+After=nvidia-docker.service xinit-login.service
+Wants=xinit-login.service
 Requires=nvidia-docker.service
 
 [Service]

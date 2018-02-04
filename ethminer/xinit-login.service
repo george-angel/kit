@@ -1,0 +1,8 @@
+[Unit]
+After=systemd-user-sessions.service network.target
+
+[Service]
+ExecStart=/bin/su george -l -c /usr/bin/startx -- VT08
+
+[Install]
+WantedBy=multi-user.target
