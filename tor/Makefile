@@ -3,7 +3,7 @@ include ../_lib/tf/base.makefile
 include vars.mk
 
 image_name=quay.io/george_angel/tor
-tor_ver=0.3.3.9
+tor_ver=0.3.4.8
 
 user=root
 
