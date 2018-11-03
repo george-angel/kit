@@ -1,0 +1,8 @@
+- name: restart tor
+  service:
+    name: tor
+    state: restarted
+
+- name: daemon reload
+  systemd:
+    daemon_reload: yes

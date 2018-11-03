@@ -1,0 +1,29 @@
+- hosts: localhost
+  vars_files: vars/main.yaml
+  tasks:
+    - name: Build image and with buildargs
+      docker_image:
+        path: .
+        name: quay.io/george_angel/tor
+        tag: "{{ tor_ver }}"
+        buildargs:
+          TOR_VER: "{{ tor_ver }}"
+        push: yes
+
+- hosts: relays
+  remote_user: root
+  roles:
+     - common
+     - tor
+  vars_files:
+    - vars/main.yaml
+    - vars/secret.yaml
+
+- hosts: bridges
+  remote_user: root
+  roles:
+     - common
+     - tor
+  vars_files:
+    - vars/main.yaml
+    - vars/secret.yaml

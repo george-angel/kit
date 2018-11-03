@@ -1,0 +1,20 @@
+- name: tor-data dir
+  file:
+    path: /tor-data
+    state: directory
+
+- name: torrc
+  template:
+    src: templates/tor.service.j2
+    dest: /etc/systemd/system/tor.service
+    mode: 0644
+  notify:
+    - daemon reload
+    - restart tor
+
+- name: tor systemd
+  systemd:
+    name: tor
+    enabled: yes
+    state: started
+    daemon_reload: yes

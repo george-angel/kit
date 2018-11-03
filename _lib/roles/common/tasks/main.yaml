@@ -1,0 +1,10 @@
+- import_tasks: debian.yaml
+  when: ansible_facts['os_family']|lower == 'debian'
+
+- name: sshd_config
+  copy:
+    src: files/sshd_config
+    dest: /etc/ssh/sshd_config
+    mode: 0644
+  notify:
+    - restart sshd

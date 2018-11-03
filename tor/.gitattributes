@@ -1,0 +1,2 @@
+vars/secret.yaml    filter=strongbox diff=strongbox
+hosts               filter=strongbox diff=strongbox
