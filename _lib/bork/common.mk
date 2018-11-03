@@ -1,4 +1,5 @@
 ssh_opts=-oStrictHostKeyChecking=no
+dfni=DEBIAN_FRONTEND=noninteractive
 
 # cat inventory/* :
 # $1 ip
@@ -7,17 +8,17 @@ ssh_opts=-oStrictHostKeyChecking=no
 # $4 arch
 
 _setup:
-	ssh $(ssh_opts) $(user)@$(IP) apt-get -y update
-	ssh $(ssh_opts) $(user)@$(IP) apt-get -y install git
+	ssh $(ssh_opts) $(user)@$(IP) $(dfni) apt-get -y update
+	ssh $(ssh_opts) $(user)@$(IP) $(dfni) apt-get -y install git
 	ssh $(ssh_opts) $(user)@$(IP) "test -d /usr/local/src/bork || git clone https://github.com/mattly/bork /usr/local/src/bork"
 	ssh $(ssh_opts) $(user)@$(IP) "test -L /usr/local/bin/bork || ln -sf /usr/local/src/bork/bin/bork /usr/local/bin/bork"
 	ssh $(ssh_opts) $(user)@$(IP) "test -L /usr/local/bin/bork-compile || ln -sf /usr/local/src/bork/bin/bork-compile /usr/local/bin/bork-compile"
 
 _update:
-	ssh $(ssh_opts) $(user)@$(IP) apt-get -y update
+	ssh $(ssh_opts) $(user)@$(IP) $(dfni) apt-get -y update
 
 _upgrade:
-	ssh $(ssh_opts) $(user)@$(IP) apt-get -y upgrade
+	ssh $(ssh_opts) $(user)@$(IP) $(dfni) apt-get -y upgrade
 
 trust-all:
 	cat inventory/* | awk '{print $$1}' | parallel ssh-keyscan {} >> ~/.ssh/known_hosts
