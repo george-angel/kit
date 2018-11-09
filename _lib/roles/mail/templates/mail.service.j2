@@ -1,0 +1,41 @@
+[Unit]
+Description=Mail
+After=docker.service
+Requires=docker.service
+
+[Service]
+PermissionsStartOnly=true
+Restart=on-failure
+ExecStart=/usr/bin/docker run \
+  --rm \
+  --name mail \
+  --hostname {{ hostname | mandatory }} \
+  --dns=1.1.1.1 \
+  --dns=1.0.0.1 \
+  --cap-add=NET_ADMIN \
+  --cap-add=SYS_PTRACE \
+  -e OVERRIDE_HOSTNAME={{ hostname | mandatory }} \
+  -e DOMAINNAME={{ domainname | mandatory }} \
+  -e ENABLE_SPAMASSASSIN=1 \
+  -e ENABLE_CLAMAV=1 \
+  -e ENABLE_FAIL2BAN=1 \
+  -e ENABLE_POSTGREY=0 \
+  -e ENABLE_MANAGESIEVE=1 \
+  -e ONE_DIR=1 \
+  -e DMS_DEBUG=0 \
+  -e SSL_TYPE=letsencrypt \
+  -p 25:25 \
+  -p 143:143 \
+  -p 587:587 \
+  -p 993:993 \
+  -p 4190:4190 \
+  -v {{ maildatavol | mandatory }}:/var/mail:rw \
+  -v {{ mailstatevol | mandatory }}:/var/mail-state:rw \
+  -v /home/george/config/:/tmp/docker-mailserver:rw \
+  -v /etc/letsencrypt:/etc/letsencrypt:rw \
+  {{ image | mandatory }}
+
+ExecStop=/usr/bin/docker stop mail
+
+[Install]
+WantedBy=multi-user.target

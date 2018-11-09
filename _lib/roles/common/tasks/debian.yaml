@@ -11,6 +11,7 @@
     packages:
     - curl
     - tmux
+    - mosh
     - gnupg2
     - ca-certificates
     - apt-transport-https

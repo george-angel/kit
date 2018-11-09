@@ -1,0 +1,32 @@
+- name: certbot.service
+  copy:
+    src: files/certbot.service
+    dest: /etc/systemd/system/certbot.service
+    mode: 0644
+  notify:
+    - daemon-reload
+    - restart-certbot
+
+- name: certbot.timer
+  copy:
+    src: files/certbot.timer
+    dest: /etc/systemd/system/certbot.timer
+    mode: 0644
+  notify:
+    - daemon-reload
+
+- name: mail.service
+  template:
+    src: templates/mail.service.j2
+    dest: /etc/systemd/system/mail.service
+    mode: 0644
+  notify:
+    - daemon-reload
+    - restart-mail
+
+- name: systemd mail
+  systemd:
+    name: mail
+    enabled: yes
+    state: started
+    daemon_reload: yes

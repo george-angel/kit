@@ -28,7 +28,7 @@ resource "scaleway_server" "server" {
   image          = "${var.old_image}"
   type           = "VC1S"
   bootscript     = "${data.scaleway_bootscript.mainline41511.id}"
-  public_ip      = "163.172.162.235"
+  public_ip      = "${scaleway_ip.ip.ip}"
   enable_ipv6    = true
   security_group = "${scaleway_security_group.sg.id}"
 }
