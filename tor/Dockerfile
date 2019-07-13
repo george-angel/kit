@@ -1,4 +1,4 @@
-FROM alpine:3.8
+FROM alpine:3.10
 
 ARG TOR_VER=x
 ENV TOR_URL https://www.torproject.org/dist/tor-$TOR_VER.tar.gz
@@ -15,7 +15,9 @@ RUN apk --no-cache add \
  libevent-dev \
  libgmpxx \
  openssl \
- openssl-dev && \
+ openssl-dev \
+ zlib \
+ zlib-dev && \
  # build tor
  wget -O $TOR_FILE $TOR_URL && \
  tar xzf $TOR_FILE && \
