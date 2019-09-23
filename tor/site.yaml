@@ -1,7 +1,7 @@
 - hosts: localhost
   vars_files: vars/main.yaml
   tasks:
-    - name: Tor image
+    - name: tor image
       docker_image:
         build:
           path: .
@@ -15,8 +15,8 @@
 - hosts: relays
   remote_user: root
   roles:
-     - common
-     - tor
+    - common
+    - tor
   vars_files:
     - vars/main.yaml
     - vars/secret.yaml
@@ -24,8 +24,8 @@
 - hosts: bridges
   remote_user: root
   roles:
-     - common
-     - tor
+    - common
+    - tor
   vars_files:
     - vars/main.yaml
     - vars/secret.yaml
