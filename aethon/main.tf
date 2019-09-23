@@ -3,7 +3,7 @@ variable "role" {
 }
 
 variable "instance_count" {
-  default = 1
+  default = 0
 }
 
 data "scaleway_image" "debian-stretch" {
