@@ -2,31 +2,31 @@ TF := $(shell git rev-parse --show-toplevel)/_lib/tf/tf
 TF_VAR_component := $(shell basename ${PWD})
 export TF_VAR_component
 
-plan:
-	$(TF) $@ $(ARGS)
+t-plan:
+	$(TF) plan $(ARGS)
 
-refresh:
-	$(TF) $@ $(ARGS)
+t-refresh:
+	$(TF) refresh $(ARGS)
 
-apply:
+t-apply:
 	$(TF) plan -out=saved-plan $(ARGS)
 	$(TF) apply $(ARGS) saved-plan
 	-rm -f saved-plan
 
-init:
-	$(TF) $@
+t-init:
+	$(TF) init
 
-destroy:
+t-destroy:
 	-rm -f saved-plan
 	$(TF) plan -destroy -out=saved-plan $(ARGS)
 	@echo -n "Hit ^C now to cancel, or press return TO DESTROY. ARE YOU SURE?" ; read something
 	$(TF) apply saved-plan
 
-show:
-	$(TF) $@ .terraform/terraform.tfstate
+t-show:
+	$(TF) show .terraform/terraform.tfstate
 
-import:
-	$(TF) $@ $(ARGS)
+t-import:
+	$(TF) import $(ARGS)
 
-get:
-	$(TF) $@ $(ARGS)
+t-get:
+	$(TF) get $(ARGS)
