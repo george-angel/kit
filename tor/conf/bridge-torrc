@@ -5,7 +5,7 @@ ORPort 4235
 ExtORPort auto
 
 Nickname ${NAME}
-ContactInfo ${CONTANCT}
+ContactInfo ${CONTACT}
 
 ExitPolicy reject *:* # no exits allowed
 BridgeRelay 1

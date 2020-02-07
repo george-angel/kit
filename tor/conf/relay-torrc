@@ -5,5 +5,5 @@ ORPort 443
 DirPort 80
 
 Nickname ${NAME}
-ContactInfo ${CONTANCT}
+ContactInfo ${CONTACT}
 ExitPolicy reject *:* # no exits allowed
