@@ -3,7 +3,7 @@
     name: "{{ packages }}"
   vars:
     packages:
-    - certbot
+      - certbot
 
 - name: install certbot
   package:

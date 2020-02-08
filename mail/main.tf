@@ -1,34 +1,42 @@
+provider "scaleway" {
+  version = "v1.13.0 "
+  zone    = "fr-par-1"
+  region  = "fr-par"
+}
+
 variable "role" {
   default = "mail"
 }
 
-// Ubuntu Xenial (16.04 latest)
-variable "old_image" {
-  default = "75c28f52-6c64-40fc-bb31-f53ca9d02de9"
+resource "scaleway_instance_security_group" "sg" {
+  name        = var.role
+  description = "allows smtp out"
 }
 
-data "scaleway_bootscript" "mainline41511" {
-  architecture = "x86_64"
-  name_filter  = "x86_64 mainline 4.15.11 rev1"
-}
+resource "scaleway_instance_ip" "ip" {}
 
-resource "scaleway_security_group" "sg" {
-  name                    = "${var.role}"
-  description             = "allows smtp out"
-  enable_default_security = false
-}
-
-resource "scaleway_ip" "ip" {
-  server  = "${scaleway_server.server.id}"
+resource "scaleway_instance_ip_reverse_dns" "mail" {
+  ip_id   = scaleway_instance_ip.ip.id
   reverse = "mail.infosecproject.org"
 }
 
-resource "scaleway_server" "server" {
-  name           = "${var.role}"
-  image          = "${var.old_image}"
-  type           = "VC1S"
-  bootscript     = "${data.scaleway_bootscript.mainline41511.id}"
-  public_ip      = "${scaleway_ip.ip.ip}"
-  enable_ipv6    = true
-  security_group = "${scaleway_security_group.sg.id}"
+resource "scaleway_instance_server" "server" {
+  name              = var.role
+  type              = "VC1S"
+  enable_ipv6       = true
+  ip_id             = scaleway_instance_ip.ip.id
+  security_group_id = scaleway_instance_security_group.sg.id
+
+  lifecycle {
+    ignore_changes = [
+      # Ignore changes to tags, e.g. because a management agent
+      # updates these based on some ruleset managed elsewhere.
+      image,
+      user_data,
+    ]
+  }
+
+  root_volume {
+    size_in_gb = 50
+  }
 }
