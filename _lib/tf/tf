@@ -2,7 +2,7 @@
 
 set -e
 
-TF_VER="0.11.7"
+TF_VER="0.12.19"
 
 repo_base_path="$(git rev-parse --show-toplevel)"
 component_relative_path="${PWD#$repo_base_path/}"
@@ -14,8 +14,9 @@ exec docker run --rm -ti \
   -e AWS_PROFILE="${AWS_PROFILE}" \
   -e AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}" \
   -e AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}" \
-  -e SCALEWAY_TOKEN="${SCALEWAY_TOKEN}" \
-  -e SCALEWAY_ORGANIZATION="${SCALEWAY_ORGANIZATION}" \
+  -e SCW_DEFAULT_ORGANIZATION_ID="${SCW_DEFAULT_ORGANIZATION_ID}" \
+  -e SCW_ACCESS_KEY="${SCW_ACCESS_KEY}" \
+  -e SCW_SECRET_KEY="${SCW_SECRET_KEY}" \
   -e DIGITALOCEAN_TOKEN="${DIGITALOCEAN_TOKEN}" \
   -e TF_VAR_date="${DATE:-$(date +%D)}" \
   -e TF_VAR_component="${TF_VAR_component}" \

@@ -1,5 +1,7 @@
 provider "scaleway" {
-  region = "par1"
+  version = "v1.13.0 "
+  zone    = "fr-par-1"
+  region  = "fr-par"
 }
 
 module "relay" {

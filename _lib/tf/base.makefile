@@ -30,3 +30,6 @@ t-import:
 
 t-get:
 	$(TF) get $(ARGS)
+
+t-state:
+	$(TF) state $(ARGS)
