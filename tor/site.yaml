@@ -4,9 +4,9 @@
     - name: tor image
       docker_image:
         build:
-          path: .
           args:
             TOR_VER: "{{ tor_ver }}"
+          path: .
         name: quay.io/george_angel/tor
         tag: "{{ tor_ver }}_{{ tor_rel }}"
         push: yes
