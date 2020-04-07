@@ -2,4 +2,4 @@ hostname: mail.infosecproject.org
 domainname: infosecproject.org
 maildatavol: george_maildata
 mailstatevol: george_mailstate
-image: tvial/docker-mailserver:release-v6.2.1
+image: tvial/docker-mailserver:release-v6.2.2
