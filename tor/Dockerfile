@@ -33,6 +33,7 @@ RUN apk --no-cache add \
   git clone https://gitlab.com/yawning/obfs4.git &&\
   (cd obfs4 && go build -o obfs4proxy/obfs4proxy ./obfs4proxy) &&\
   cp ./obfs4/obfs4proxy/obfs4proxy /usr/local/bin/ &&\
+  rm -rf ./obfs4 &&\
   # allow tor+obfs4 to bind to <1024 ports
   setcap CAP_NET_BIND_SERVICE=+eip $(which obfs4proxy) && \
   setcap CAP_NET_BIND_SERVICE=+eip $(which tor) && \
