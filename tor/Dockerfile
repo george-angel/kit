@@ -1,4 +1,4 @@
-FROM alpine:3.11
+FROM alpine:3.12
 
 ARG TOR_VER=x
 ENV TOR_URL https://dist.torproject.org/tor-${TOR_VER}.tar.gz
