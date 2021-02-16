@@ -11,14 +11,14 @@ exec docker run --rm -ti \
   -v "${repo_base_path}":/data \
   -v "${HOME}/.aws":/root/.aws:ro \
   -w "/data/${component_relative_path}" \
+  -e AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}" \
   -e AWS_PROFILE="${AWS_PROFILE}" \
   -e AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}" \
-  -e AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}" \
-  -e SCW_DEFAULT_ORGANIZATION_ID="${SCW_DEFAULT_ORGANIZATION_ID}" \
-  -e SCW_ACCESS_KEY="${SCW_ACCESS_KEY}" \
-  -e SCW_SECRET_KEY="${SCW_SECRET_KEY}" \
   -e DIGITALOCEAN_TOKEN="${DIGITALOCEAN_TOKEN}" \
-  -e TF_VAR_date="${DATE:-$(date +%D)}" \
-  -e TF_VAR_component="${TF_VAR_component}" \
+  -e SCW_ACCESS_KEY="${SCW_ACCESS_KEY}" \
+  -e SCW_DEFAULT_ORGANIZATION_ID="${SCW_DEFAULT_ORGANIZATION_ID}" \
+  -e SCW_SECRET_KEY="${SCW_SECRET_KEY}" \
   -e TF_PLUGIN_CACHE_DIR=/data/.terraform_plugin_cache \
+  -e TF_VAR_component="${TF_VAR_component}" \
+  -e TF_VAR_date="${DATE:-$(date +%D)}" \
   hashicorp/terraform:${TF_VER} "$@"
