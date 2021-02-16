@@ -11,6 +11,8 @@
         tag: "{{ tor_ver }}_{{ tor_rel }}"
         push: yes
         source: build
+  tags:
+    - docker_image
 
 - hosts: relays
   remote_user: root
