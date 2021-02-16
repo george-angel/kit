@@ -1,6 +1,0 @@
-# vim: ft=sh
-
-ok file /etc/ssh/sshd_config sshd_config
-if did_update; then
-	systemctl restart sshd
-fi
