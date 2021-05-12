@@ -26,6 +26,7 @@ ExecStart=/usr/bin/docker run \
   -e ONE_DIR=1 \
   -e DMS_DEBUG=0 \
   -e SSL_TYPE=letsencrypt \
+  -e SPAMASSASSIN_SPAM_TO_INBOX=1 \
   -p 25:25 \
   -p 143:143 \
   -p 587:587 \
