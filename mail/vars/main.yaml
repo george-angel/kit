@@ -2,4 +2,4 @@ hostname: mail.infosecproject.org
 domainname: infosecproject.org
 maildatavol: george_maildata
 mailstatevol: george_mailstate
-image: mailserver/docker-mailserver:9.1.0
+image: mailserver/docker-mailserver:10.2.0
