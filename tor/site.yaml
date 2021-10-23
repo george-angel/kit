@@ -1,8 +1,8 @@
 - hosts: localhost
   vars_files: vars/main.yaml
   tasks:
-    - name: tor image
-      docker_image:
+    - name: Tor image
+      community.docker.docker_image:
         build:
           args:
             TOR_VER: "{{ tor_ver }}"
