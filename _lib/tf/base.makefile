@@ -2,6 +2,12 @@ TF := $(shell git rev-parse --show-toplevel)/_lib/tf/tf
 TF_VAR_component := $(shell basename ${PWD})
 export TF_VAR_component
 
+CMDS = t-output t-refresh t-validate t-console t-import t-state t-taint t-untaint t-force-unlock t-version t-0.12checklist t-0.12upgrade t-graph t-providers t-show t-fmt
+.PHONY: $(CMDS)
+
+t-0.13upgrade:
+	$(TF) 0.13upgrade $(ARGS)
+
 t-plan:
 	$(TF) plan $(ARGS)
 
