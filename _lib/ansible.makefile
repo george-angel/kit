@@ -9,4 +9,4 @@ a-playbook-tor:
 a-playbook-check:
 	ansible-playbook -v -i hosts -f 10 site.yaml --check $(ARGS)
 a-playbook-check-tor:
-	ansible-playbook -v -i hosts -f 10 site.yaml --check $(ARGS)
+	torsocks ansible-playbook -v -i hosts -f 10 site.yaml --check $(ARGS)
