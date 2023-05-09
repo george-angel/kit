@@ -1,31 +1,7 @@
-- name: Install mail packages
-  apt:
-    name: "{{ packages }}"
-  vars:
-    packages:
-      - certbot
-
 - name: install certbot
   package:
     name: certbot
     state: present
-
-- name: certbot.service
-  copy:
-    src: files/certbot.service
-    dest: /etc/systemd/system/certbot.service
-    mode: 0644
-  notify:
-    - daemon-reload
-    - restart-certbot
-
-- name: certbot.timer
-  copy:
-    src: files/certbot.timer
-    dest: /etc/systemd/system/certbot.timer
-    mode: 0644
-  notify:
-    - daemon-reload
 
 - name: mail.service
   template:

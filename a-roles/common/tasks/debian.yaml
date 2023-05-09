@@ -5,21 +5,15 @@
     cache_valid_time: 86400 # One day
   register: apt
 
-- debug: msg={{ apt.stdout.split('\n')[:-1] }}
-
 - name: Install a list of packages
   apt:
     name: "{{ packages }}"
   vars:
     packages:
-      - curl
-      - tmux
+      - docker.io
+      - make
       - mosh
-      - gnupg2
-      - ca-certificates
-      - apt-transport-https
-      - software-properties-common
-      - docker-ce
+      - tmux
 
 # https://docs.ansible.com/ansible/latest/collections/ansible/builtin/apt_module.html
 - name: Remove useless packages from the cache

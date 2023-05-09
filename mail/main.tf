@@ -1,3 +1,11 @@
+terraform {
+  required_providers {
+    scaleway = {
+      source = "scaleway/scaleway"
+    }
+  }
+}
+
 provider "scaleway" {
   zone   = "fr-par-1"
   region = "fr-par"
@@ -14,29 +22,17 @@ resource "scaleway_instance_security_group" "sg" {
   enable_default_security = false
 }
 
-resource "scaleway_instance_ip" "ip" {}
+resource "scaleway_instance_ip" "mail" {}
 
 resource "scaleway_instance_ip_reverse_dns" "mail" {
-  ip_id   = scaleway_instance_ip.ip.id
+  ip_id   = scaleway_instance_ip.mail.id
   reverse = "mail.infosecproject.org"
 }
 
-resource "scaleway_instance_server" "server" {
-  name              = var.role
-  type              = "VC1S"
-  boot_type         = "bootscript"
-  enable_ipv6       = true
-  ip_id             = scaleway_instance_ip.ip.id
+resource "scaleway_instance_server" "mail" {
+  image             = "ubuntu_jammy"
+  ip_id             = scaleway_instance_ip.mail.id
+  name              = "mail"
   security_group_id = scaleway_instance_security_group.sg.id
-
-  lifecycle {
-    ignore_changes = [
-      image,
-      user_data,
-    ]
-  }
-
-  root_volume {
-    size_in_gb = 50
-  }
+  type              = "DEV1-S"
 }

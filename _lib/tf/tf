@@ -2,7 +2,7 @@
 
 set -e
 
-TF_VER="${TF_VER:-1.2.8}"
+TF_VER="${TF_VER:-1.4.4}"
 
 repo_base_path="$(git rev-parse --show-toplevel)"
 component_relative_path="${PWD#$repo_base_path/}"
