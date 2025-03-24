@@ -1,12 +1,14 @@
+OPTS = -v -t all -i hosts -f 10 site.yaml
+
 a-ping:
 	ansible all -m ping -i hosts
 a-ping-tor:
 	torsocks ansible all -m ping -i hosts
 a-playbook:
-	ansible-playbook -v -i hosts -f 10 site.yaml $(ARGS)
+	ansible-playbook $(OPTS) $(ARGS)
 a-playbook-tor:
-	torsocks ansible-playbook -v -i hosts -f 10 site.yaml $(ARGS)
+	torsocks ansible-playbook $(OPTS) $(ARGS)
 a-playbook-check:
-	ansible-playbook -v -i hosts -f 10 site.yaml --check $(ARGS)
+	ansible-playbook $(OPTS) --check $(ARGS)
 a-playbook-check-tor:
-	torsocks ansible-playbook -v -i hosts -f 10 site.yaml --check $(ARGS)
+	torsocks ansible-playbook $(OPTS) --check $(ARGS)
